@@ -27,11 +27,11 @@ class BinomialLogisticRegression(object):
 
     def fit(self, x, y):
         n_samples = len(x)
-        n_classes = len(x[0]) + 1 
+        n_features = len(x[0]) + 1 
 
         x = np.column_stack((x, np.ones(n_samples))) # expand 1 column for intercept
 
-        self.coef_ = np.random.rand(n_classes,)
+        self.coef_ = np.random.rand(n_features,)
 
         # LaTex: J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}(y_i\log(h_{\theta}(x_i))+(1-y_i)\log(1-h_{\theta}(x_i))
         cost_func = lambda pred, label: -label * math.log(pred) - (1 - label) * math.log(1 - pred)
@@ -43,7 +43,7 @@ class BinomialLogisticRegression(object):
                         (sigmoid(self.coef_.dot(x[i])) - y[i]) * x[i][j] 
                         for i in range(n_samples)
                     ) / n_samples
-            ) for j in range(n_classes)])
+            ) for j in range(n_features)])
 
         verbose_interval = int(self.max_epoch * 0.05)
         if verbose_interval == 0: verbose_interval = 1
