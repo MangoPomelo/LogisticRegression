@@ -3,6 +3,9 @@ import pickle
 import numpy as np
 
 
+sigmoid = lambda z: 1.0 / (1.0 + math.exp(-z))
+
+
 class BinomialLogisticRegression(object):
     """BinomialLogisticRegression"""
     def __init__(self, lr=0.03, max_epoch=100, tol=0.0001, verbose=False):
@@ -29,8 +32,6 @@ class BinomialLogisticRegression(object):
         x = np.column_stack((x, np.ones(n_samples))) # expand 1 column for intercept
 
         self.coef_ = np.random.rand(n_classes,)
-
-        sigmoid = lambda z: 1.0 / (1.0 + math.exp(-z))
 
         # LaTex: J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}(y_i\log(h_{\theta}(x_i))+(1-y_i)\log(1-h_{\theta}(x_i))
         cost_func = lambda pred, label: -label * math.log(pred) - (1 - label) * math.log(1 - pred)
@@ -72,8 +73,6 @@ class BinomialLogisticRegression(object):
             epoch += 1
         
     def predict_proba(self, x):
-        sigmoid = lambda z: 1.0 / (1.0 + math.exp(-z))
-        
         n_samples = len(x)
         x = np.column_stack((x, np.ones(n_samples)))
 
