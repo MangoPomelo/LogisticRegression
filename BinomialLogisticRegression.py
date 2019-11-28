@@ -33,11 +33,11 @@ class BinomialLogisticRegression(object):
         sigmoid = lambda z: 1.0 / (1.0 + math.exp(-z))
 
         # LaTex: J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}(y_i\log(h_{\theta}(x_i))+(1-y_i)\log(1-h_{\theta}(x_i))
-        cost_func_ = lambda pred, label: -label * math.log(pred) - (1 - label) * math.log(1 - pred)
+        cost_func = lambda pred, label: -label * math.log(pred) - (1 - label) * math.log(1 - pred)
 
         # Define the deivative cost function
         # Latex: \frac{\partial J(\theta)}{\partial \theta_j} = \frac{1}{m} \sum_{i=1}^{m}(h_{\theta}(x_i)-y_i)x_i_j
-        derivative_cf_ = lambda x, y: np.asarray([(
+        derivative_cf = lambda x, y: np.asarray([(
                 np.sum(
                         (sigmoid(self.coef_.dot(x[i])) - y[i]) * x[i][j] 
                         for i in range(n_samples)
@@ -55,11 +55,11 @@ class BinomialLogisticRegression(object):
 
             # Update coefficent and intercept
             # LaTex: \theta_j = \theta_j - \alpha \frac{\partial J(\theta)}{\partial \theta_j}
-            self.coef_ -= self.lr * derivative_cf_(x, y)
+            self.coef_ -= self.lr * derivative_cf(x, y)
 
             # Calculate average cost for an epoch
             average_epoch_cost = np.average([
-                    cost_func_(sigmoid(self.coef_.dot(x[i])), y[i])
+                    cost_func(sigmoid(self.coef_.dot(x[i])), y[i])
                     for i in range(n_samples)
                 ])
 
